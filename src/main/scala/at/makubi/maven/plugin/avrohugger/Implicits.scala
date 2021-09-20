@@ -69,6 +69,9 @@ object Implicits {
     def withOptionalStringType(optionalString: avrohugger.types.AvroScalaStringType): AvroScalaTypes =
       nonNullOrDefault(optionalString)(string => avroScalaTypes.copy(string = string))
 
+    def withOptionalTimestampMillisType(optionalTimestampMillis: avrohugger.types.AvroScalaTimestampMillisType): AvroScalaTypes =
+      nonNullOrDefault(optionalTimestampMillis)(timestampMillis => avroScalaTypes.copy(timestampMillis = timestampMillis))
+
     private def nonNullOrDefault[T](maybeNull: T)(f: T => AvroScalaTypes): AvroScalaTypes = {
       Option(maybeNull).map { t =>
         f(t)
@@ -78,7 +81,9 @@ object Implicits {
 
   implicit class FileArrayEnricher(files: Seq[File]) {
 
-    def withSuffix(suffix: String): Seq[File] = files.filter(_.getName.endsWith(suffix))
+    def withSuffix(suffix: String): Seq[File] = {
+      files.filter(_.getName.endsWith(suffix))
+    }
   }
 
 }
